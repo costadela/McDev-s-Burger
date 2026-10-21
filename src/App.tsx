@@ -1,13 +1,16 @@
-import Header from "./components/Header.tsx";
-const App = () => {
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+export default function App() {
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <h1 className="bg-blue-500 p-4 text-white">Hello, World!</h1>
-      </main>
+    <div className="flex min-h-screen flex-col bg-black">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Register />} />
+      </Routes>
     </div>
   );
-};
-
-export default App;
+}
