@@ -19,14 +19,14 @@ const Register = () => {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-black px-4">
+    <div className="flex min-h-screen w-full items-center justify-center bg-black px-4 py-8">
       <form
         onSubmit={handleSubmit}
-        className="flex w-87.5 flex-col items-center gap-2 rounded-xl border border-neutral-800 bg-black p-6 shadow-2xl"
+        className="flex w-full max-w-sm flex-col items-center gap-3 rounded-xl border border-neutral-800 bg-black p-6 shadow-2xl"
       >
         <Link
           to="/"
-          className="flex items-center gap-2 transition-opacity hover:opacity-90"
+          className="mb-2 flex items-center justify-center transition-opacity hover:opacity-90"
         >
           <img src="/logo.png" alt="McDev's Burger" className="h-16 w-auto" />
         </Link>
@@ -68,7 +68,7 @@ const Register = () => {
 
         <button
           type="submit"
-          className="w-full cursor-pointer rounded-md bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700"
+          className="mt-1 w-full cursor-pointer rounded-md bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700"
         >
           Cadastrar
         </button>
