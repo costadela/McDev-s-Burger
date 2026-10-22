@@ -2,29 +2,28 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="border-b border-neutral-800 bg-black px-6 py-4 text-white md:px-12">
-      <div className="mx-auto flex max-w-6xl items-center justify-between">
+    <header className="border-b border-neutral-800 bg-black text-white">
+      <div className="mx-auto flex w-full max-w-300 items-center justify-between px-6 py-3 md:px-12">
         {/* Logo clicável apontando para a Home */}
         <Link
           to="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-90"
         >
-          <img src="/logo.png" alt="McDev's Burger" className="h-16 w-auto" />
+          <img src="/logo.png" alt="McDev's Burger" className="h-20 w-auto" />
         </Link>
 
-        {/* Navegação e Ações */}
-        <nav className="flex items-center gap-6">
+        {/* Navegação e ações */}
+        <nav className="flex items-center gap-3">
           <Link
-            to="/"
-            className="text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+            to="/menu"
+            className="inline-flex items-center justify-center rounded-xl border border-neutral-700 px-5 py-2.5 text-sm font-bold text-white transition duration-200 hover:-translate-y-0.5 hover:border-[#ffa41b] hover:text-[#ffa41b]"
           >
-            Cardápio
+            Ver cardápio →
           </Link>
 
-          {/* Link estilizado como botão */}
           <Link
             to="/login"
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-blue-700 active:scale-95"
+            className="inline-flex items-center justify-center rounded-xl bg-linear-to-br from-[#ffa41b] to-[#ff7a00] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[0_8px_30px_rgba(255,140,0,0.25)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(255,140,0,0.45)] active:scale-95"
           >
             Entrar
           </Link>

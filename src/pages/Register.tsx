@@ -28,7 +28,7 @@ const Register = () => {
           to="/"
           className="mb-2 flex items-center justify-center transition-opacity hover:opacity-90"
         >
-          <img src="/logo.png" alt="McDev's Burger" className="h-16 w-auto" />
+          <img src="/logo.png" alt="McDev's Burger" className="h-20 w-auto" />
         </Link>
 
         <Input

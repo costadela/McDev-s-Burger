@@ -35,7 +35,7 @@ export const MAPS_EMBED = `https://maps.google.com/maps?q=${MAPS_QUERY}&t=&z=15&
 
 const linkFocus =
   "rounded-sm focus-visible:outline-none focus-visible:ring-2 " +
-  "focus-visible:ring-blue-500 focus-visible:ring-offset-2 " +
+  "focus-visible:ring-[#ffa41b] focus-visible:ring-offset-2 " +
   "focus-visible:ring-offset-black";
 
 const Footer = () => {
@@ -49,7 +49,7 @@ const Footer = () => {
 
   return (
     <footer className="w-full border-t border-neutral-800 bg-black text-neutral-400">
-      <div className="mx-auto grid max-w-4xl gap-10 px-6 py-10 md:grid-cols-2 md:gap-16">
+      <div className="mx-auto grid max-w-300 gap-10 px-6 py-10 md:grid-cols-[auto_auto] md:justify-center md:gap-48 md:px-12">
         <div className="space-y-6">
           <div className="space-y-2">
             <p className="text-lg font-semibold text-white">McDev's Burger</p>
@@ -85,7 +85,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="w-full space-y-3 md:max-w-sm md:justify-self-end">
+        <div className="w-full space-y-3 md:w-96">
           <h2 className="text-sm font-semibold text-white">Onde estamos</h2>
           <address className="text-sm text-neutral-300 not-italic">
             {ADDRESS}
@@ -101,14 +101,14 @@ const Footer = () => {
             href={MAPS_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-block text-sm font-medium text-blue-400 hover:text-blue-300 hover:underline ${linkFocus}`}
+            className={`inline-block text-sm font-medium text-[#ffa41b] transition-colors hover:text-[#ff7a00] hover:underline ${linkFocus}`}
           >
             Abrir no Google Maps
           </a>
         </div>
       </div>
 
-      <div className="space-y-1 border-t border-neutral-900 py-4 text-center text-xs text-neutral-500">
+      <div className="space-y-1 border-t border-neutral-800 py-4 text-center text-xs text-neutral-500">
         <p>
           © {new Date().getFullYear()} McDev's Burger. Todos os direitos
           reservados.
@@ -119,7 +119,7 @@ const Footer = () => {
             href="https://vitorcostadela.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-sm font-medium text-blue-400 transition-colors hover:text-blue-300 hover:underline focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
+            className={`font-medium text-[#ffa41b] transition-colors hover:text-[#ff7a00] hover:underline ${linkFocus}`}
           >
             Vitor Costadela
           </a>
