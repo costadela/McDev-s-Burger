@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "../components/Input.tsx";
+import Button from "../components/Button.tsx";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -11,10 +12,15 @@ const Register = () => {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem.");
+      return;
+    }
+
     console.log("Nome:", nome);
     console.log("E-mail:", email);
     console.log("Senha:", password);
-    console.log("Confirme sua Senha:", confirmPassword);
     console.log("CEP:", cep);
   }
 
@@ -62,26 +68,20 @@ const Register = () => {
         <Input
           placeholder="CEP"
           type="text"
+          inputMode="numeric"
+          maxLength={9}
           value={cep}
           onChange={(e) => setCep(e.target.value)}
         />
 
-        <button
-          type="submit"
-          className="mt-1 w-full cursor-pointer rounded-md bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700"
-        >
-          Cadastrar
-        </button>
-
-        <p className="mt-2 text-center text-sm text-white">
-          Já tem conta?{" "}
-          <Link
-            to="/login"
-            className="font-semibold text-blue-500 transition-colors hover:text-blue-400"
-          >
-            Clique aqui
-          </Link>
-        </p>
+        <Button title="Cadastrar" />
+        <Link to="/login" className="w-full">
+          <Button
+            title="Já tem conta?"
+            variant="outline"
+            type="button"
+          />
+        </Link>
       </form>
     </div>
   );
