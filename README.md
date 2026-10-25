@@ -1,5 +1,7 @@
 # 🍔 McDev’s Burger
 
+🔗 **Acesse:** [burger.vitorcostadela.com](https://burger.vitorcostadela.com)
+
 > Sistema web para uma hamburgueria, desenvolvido como projeto prático de aprendizado Full Stack.
 
 O **McDev’s Burger** tem como objetivo desenvolver uma aplicação web completa, conectando uma interface moderna a uma API própria e a um banco de dados relacional.
@@ -31,6 +33,22 @@ McDevs-Burger/
 
 Consolidar conhecimentos em desenvolvimento Full Stack, integração entre aplicações, APIs REST, bancos de dados relacionais, autenticação, testes e publicação de aplicações.
 
----
+
+## ▶️ Como rodar
+
+### Front-end
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Back-end
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run dev
+```
 
 Desenvolvido por **Vitor Costadela** 🚀
