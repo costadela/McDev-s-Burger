@@ -74,7 +74,7 @@ const Register = () => {
           onChange={(e) => setCep(e.target.value)}
         />
 
-        <Button title="Cadastrar" />
+        <Button title="Cadastrar" type="submit" />
         <Link to="/login" className="w-full">
           <Button
             title="Já tem conta?"

@@ -17,3 +17,14 @@ model User {
   cep       String
   createdAt DateTime @default(now()) // Data e hora do cadastro, preenchida automaticamente pelo banco
 }
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Decimal  @db.Decimal(10, 2) // 2 casas decimais; Evita erros de arredondamento (ex: 0.1 + 0.2 = 0.30000000000000004)
+  imageUrl    String?
+  category    String
+  available   Boolean  @default(true) // Permite tirar o produto do cardápio sem apagá-lo do banco
+  createdAt   DateTime @default(now())
+}

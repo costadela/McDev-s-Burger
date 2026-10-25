@@ -7,10 +7,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    console.log(data);
   }
 
   return (
@@ -40,9 +47,9 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button title="Login" />
+        <Button title="Login" type="submit" />
         <Link to="/cadastro" className="w-full">
-          <Button title="Não tem uma conta?" variant="outline" />
+          <Button title="Não tem uma conta?" variant="outline" type="button" />
         </Link>
       </form>
     </div>
