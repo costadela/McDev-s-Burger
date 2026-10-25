@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+model User {
+  id        String   @id @default(uuid()) // Identificador único, gerado automaticamente
+  name      String
+  email     String   @unique // @unique impede dois cadastros com o mesmo e-mail
+  password  String
+  cep       String
+  createdAt DateTime @default(now()) // Data e hora do cadastro, preenchida automaticamente pelo banco
+}
