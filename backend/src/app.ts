@@ -15,18 +15,29 @@ app.get('/', (req: Request, res: Response) => {
 */
 
 app.post("/login", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
+    // 400: dados faltando
+    if (!email || !password) {
+      return res.status(400).json({ message: "Informe e-mail e senha" });
+    }
 
-  if (!user || user.password !== password) {
-    return res.status(401).json({ message: "E-mail ou senha inválidos" });
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    // 401: usuário não existe ou senha errada (mesma mensagem de propósito)
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: "E-mail ou senha inválidos" });
+    }
+    // 200: login certo, devolve o usuário sem a senha
+    const { password: _, ...userWithoutPassword } = user;
+    return res.json(userWithoutPassword);
+  } catch (error) {
+    // 500: qualquer erro inesperado (banco fora do ar, etc.)
+    console.error("Erro no login:", error);
+    return res.status(500).json({ message: "Erro interno, tente novamente" });
   }
-
-  const { password: _, ...userWithoutPassword } = user;
-  res.json(userWithoutPassword);
 });
 
 export default app;

@@ -7,17 +7,30 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError("");
 
-    const response = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
-    console.log(data);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
+        return;
+      }
+
+      console.log("Login realizado:", data);
+    } catch {
+      setError("Não foi possível conectar ao servidor");
+    }
   }
 
   return (
@@ -46,7 +59,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
+        {error && <p className="w-full text-sm text-[#ffa41b]">{error}</p>}
         <Button title="Login" type="submit" />
         <Link to="/cadastro" className="w-full">
           <Button title="Não tem uma conta?" variant="outline" type="button" />
