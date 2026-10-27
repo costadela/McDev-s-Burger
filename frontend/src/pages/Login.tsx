@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Input from "../components/Input.tsx";
 import Button from "../components/Button.tsx";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const successMessage = location.state?.message;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
     setError("");
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:3000/login", {
@@ -24,12 +31,15 @@ const Login = () => {
 
       if (!response.ok) {
         setError(data.message);
+        setPassword("");
         return;
       }
 
-      console.log("Login realizado:", data);
+      navigate("/menu");
     } catch {
       setError("Não foi possível conectar ao servidor");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -59,8 +69,12 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {successMessage && !error && (
+          <p className="w-full text-sm text-green-500">{successMessage}</p>
+        )}
         {error && <p className="w-full text-sm text-[#ffa41b]">{error}</p>}
-        <Button title="Login" type="submit" />
+        <Button title={loading ? "Entrando..." : "Login"} type="submit" />
         <Link to="/cadastro" className="w-full">
           <Button title="Não tem uma conta?" variant="outline" type="button" />
         </Link>

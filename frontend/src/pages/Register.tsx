@@ -1,27 +1,52 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input.tsx";
 import Button from "../components/Button.tsx";
-import { Link } from "react-router-dom";
 
 const Register = () => {
-  const [nome, setNome] = useState("");
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cep, setCep] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+    setError("");
 
     if (password !== confirmPassword) {
-      alert("As senhas não coincidem.");
+      setError("As senhas não coincidem");
       return;
     }
 
-    console.log("Nome:", nome);
-    console.log("E-mail:", email);
-    console.log("Senha:", password);
-    console.log("CEP:", cep);
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:3000/cadastro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, cep }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
+        return;
+      }
+
+      navigate("/login", { state: { message: data.message } });
+    } catch {
+      setError("Não foi possível conectar ao servidor");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -40,8 +65,8 @@ const Register = () => {
         <Input
           placeholder="Nome"
           type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <Input
@@ -74,13 +99,13 @@ const Register = () => {
           onChange={(e) => setCep(e.target.value)}
         />
 
-        <Button title="Cadastrar" type="submit" />
+        {error && <p className="w-full text-sm text-[#ffa41b]">{error}</p>}
+        <Button
+          title={loading ? "Cadastrando..." : "Cadastrar"}
+          type="submit"
+        />
         <Link to="/login" className="w-full">
-          <Button
-            title="Já tem conta?"
-            variant="outline"
-            type="button"
-          />
+          <Button title="Já tem conta?" variant="outline" type="button" />
         </Link>
       </form>
     </div>
