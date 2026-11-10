@@ -5,12 +5,12 @@ import bcrypt from "bcrypt";
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" })); // Permite requisições do front
+app.use(cors({ origin: process.env.FRONTEND_URL })); // Permite requisições do front
 app.use(express.json()); // Necessário para ler JSON no corpo das requisições (POST/PUT/PATCH)
 
 /*
-Rota inicial de teste
-app.get('/', (req: Request, res: Response) => {
+  Rota inicial de teste
+  app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'API do McDev\'s Burger funcionando!' });
 });
 */
