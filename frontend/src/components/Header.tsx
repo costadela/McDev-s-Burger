@@ -94,7 +94,7 @@ const Header = () => {
 
               {/* Vai abrir um modal (mais para frente), por isso é botão e não link */}
               <button
-                className="flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-white transition hover:scale-110"
+                className="flex h-8.75 w-8.75 cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-white transition hover:scale-110"
                 title="Adicionar produto"
               >
                 <Plus size={18} />
@@ -121,7 +121,7 @@ const Header = () => {
                   aria-label="Carrinho"
                 >
                   <ShoppingCart size={22} />
-                  <span className="absolute -top-1 -right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#ffa41b] px-1 text-[11px] font-bold text-black ring-2 ring-black">
+                  <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-[#ffa41b] px-1 text-[11px] font-bold text-black ring-2 ring-black">
                     1
                   </span>
                 </button>
