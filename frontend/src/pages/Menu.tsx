@@ -1,4 +1,3 @@
-import Header from "../components/Header";
 import Products from "../components/Products";
 
 const formatPrice = (value: number) =>
