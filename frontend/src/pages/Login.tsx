@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Input from "../components/Input.tsx";
 import Button from "../components/Button.tsx";
+import { UserContext } from "../contexts/UserContext.tsx";
+import { useContext } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { setUser } = useContext(UserContext);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (loading) return;
@@ -25,16 +29,17 @@ const Login = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // Envia cookies junto com a requisição
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         setError(data.message);
         setPassword("");
         return;
       }
 
+      setUser(data);
       navigate("/menu");
     } catch {
       setError("Não foi possível conectar ao servidor");
