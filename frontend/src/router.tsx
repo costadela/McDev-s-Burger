@@ -2,9 +2,11 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Menu from "./pages/Menu";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Menu from "./pages/Menu";
+import Pedidos from "./pages/admin/Pedidos";
+import Cardapio from "./pages/admin/Cardapio";
 
 /**
  * LAYOUT PADRÃO (Com Header e Footer)
@@ -30,27 +32,19 @@ export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-    ],
+  { path: "/", element: <Home /> },
+  { path: "/menu", element: <Menu /> },
+
+  // Área administrativa
+  { path: "/admin/cardapio", element: <Cardapio /> },
+  { path: "/admin/pedidos", element: <Pedidos /> },
+],
   },
 
   // ==========================================
   // ROTAS SEM LAYOUT (Tela cheia / Limpas)
   // Útil para Login/Cadastro para não ter Header/Footer atrapalhando
   // ==========================================
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/cadastro",
-    element: <Register />,
-  },
-        {
-        path: "/menu",
-        element: <Menu />,
-      },
+  { path: "/login", element: <Login /> },
+  { path: "/cadastro", element: <Register /> },
 ]);
