@@ -14,7 +14,7 @@ const Header = () => {
   useEffect(() => {
     const handleAuthUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/me", {
+     const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
           credentials: "include",
         });
 
@@ -37,7 +37,7 @@ const Header = () => {
   // Pede ao back para apagar o cookie e depois limpa o front
   async function handleLogout() {
     try {
-      await fetch("http://localhost:3000/logout", {
+     await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
