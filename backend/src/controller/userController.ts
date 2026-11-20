@@ -6,6 +6,14 @@ import type { UserPayload } from "../types/user.ts";
 import { COOKIE_NAME, ONE_HOUR_MS } from "../config/auth.ts";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const COMMON_PASSWORDS = [
+  "12345678",
+  "123456789",
+  "senha123",
+  "password",
+  "qwerty123",
+  "11111111",
+];
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -89,10 +97,17 @@ export const cadastro = async (req: Request, res: Response) => {
     }
 
     // 400: senha mínima
-    if (cleanPassword.length < 6) {
+    if (cleanPassword.length < 8) {
       return res
         .status(400)
-        .json({ message: "A senha deve ter pelo menos 6 caracteres" });
+        .json({ message: "A senha deve ter pelo menos 8 caracteres" });
+    }
+
+    // 400: senha muito comum
+    if (COMMON_PASSWORDS.includes(cleanPassword.toLowerCase())) {
+      return res
+        .status(400)
+        .json({ message: "Essa senha é muito comum, escolha outra" });
     }
 
     // 400: senha máxima (o bcrypt só considera os primeiros 72 bytes)
