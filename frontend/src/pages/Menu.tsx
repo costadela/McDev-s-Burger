@@ -1,63 +1,57 @@
-import Products from "../components/Products";
-
-const formatPrice = (value: number) =>
-  value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
+import { useState } from "react";
+import Products from "../components/Products"; // Componente: desenha os cards
+import products from "../data/products"; // Dados: a lista de produtos
+import categories from "../data/categories"; // Dados: a lista de categorias
 
 const Menu = () => {
+  // Guarda qual categoria está selecionada (começa no Hamburger)
+  const [selectedCategory, setSelectedCategory] = useState(1);
+
+  // Só os produtos da categoria clicada 
+  const filteredProducts = products.filter(
+    (product) => product.categoryId === selectedCategory
+  );
+
+  // Troca a categoria selecionada
+  const handleChangeCategory = (categoryId: number) => {
+    setSelectedCategory(categoryId);
+  };
+
+  // Devolve a classe conforme estiver selecionada ou não
+  const getCategoryClass = (categoryId: number) => {
+    const baseClass =
+  "flex h-7 w-[31%] cursor-pointer items-center justify-center rounded-md border border-amber-50 text-xs font-bold transition md:h-9 md:w-32 md:text-base";
+
+    if (categoryId === selectedCategory) {
+      return `${baseClass} bg-amber-50 text-neutral-900`; // Selecionada
+    }
+    return `${baseClass} bg-neutral-900 text-amber-50 hover:bg-amber-50 hover:text-neutral-900`; // Não selecionada
+  };
+
   return (
-    <>
+    <div className="flex min-h-screen w-full flex-col items-center bg-black px-6 py-8 text-white md:px-12">
+      {/* Título da página */}
+      <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
+        Nosso <span className="text-[#ffa41b]">cardápio</span>
+      </h1>
 
-      <div className="flex min-h-screen w-full flex-col items-center bg-black px-6 py-8 text-white md:px-12">
-        <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-          Card<span className="text-[#ffa41b]">á</span>pio
-        </h1>
-
-        <p className="mt-2 text-center text-neutral-400">
-          Escolha seu próximo commit de sabor.
-        </p>
-
-        <p className="mt-1 text-sm text-neutral-500">
-          100% artesanal. Zero bugs.
-        </p>
-
-        {/* Produtos */}
-        <section className="mt-10 flex w-full max-w-300 flex-wrap justify-center gap-5">
-          {Products.map((product) => (
-            <article
-              key={product.id}
-              className="flex w-full max-w-xs flex-col overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 transition duration-200 hover:-translate-y-1 hover:border-[#ffa41b] md:w-64"
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = "/hero-burger.png";
-                }}
-                className="h-44 w-full object-cover"
-              />
-
-              <div className="flex flex-1 flex-col p-5">
-                <h2 className="text-lg font-semibold">{product.name}</h2>
-
-                <p className="mt-1.5 flex-1 text-[0.95rem] leading-normal text-neutral-400">
-                  {product.description}
-                </p>
-
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-lg font-bold text-[#ffa41b]">
-                    {formatPrice(product.price)}
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </section>
+ {/* Categorias */}
+<div className="mt-6 flex w-full max-w-80 flex-wrap justify-center gap-2 md:max-w-none">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            onClick={() => handleChangeCategory(category.id)}
+            className={getCategoryClass(category.id)}
+          >
+            {category.name}
+          </button>
+        ))}
       </div>
-    </>
+
+      {/* Produtos da categoria selecionada */}
+      <Products products={filteredProducts} />
+    </div>
   );
 };
 

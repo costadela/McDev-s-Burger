@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { Flame, Beef, Terminal } from "lucide-react";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const destaques = [
   {
@@ -20,9 +22,11 @@ const destaques = [
 ];
 
 const btnBase =
-  "inline-flex items-center justify-center rounded-xl px-7 py-3.5 font-bold transition duration-200 hover:-translate-y-0.5 w-full sm:w-auto";
+  "inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-bold transition duration-200 hover:-translate-y-0.5 md:rounded-xl md:px-7 md:py-3.5 md:text-base";
 
 export default function Home() {
+  const { user } = useContext(UserContext);
+
   return (
     <main className="overflow-x-hidden bg-black text-white">
       {/* HERO */}
@@ -52,8 +56,9 @@ export default function Home() {
           </p>
 
           <div className="mt-8 mb-6 flex flex-wrap items-center gap-4">
+            {/* Logado: direto para o menu. Deslogado: faz login primeiro */}
             <Link
-              to="/login"
+              to={user ? "/menu" : "/login"}
               className={`${btnBase} bg-linear-to-br from-[#ffa41b] to-[#ff7a00] text-neutral-900 shadow-[0_8px_30px_rgba(255,140,0,0.35)] hover:shadow-[0_12px_40px_rgba(255,140,0,0.55)]`}
             >
               Pedir agora 🍔
@@ -61,7 +66,7 @@ export default function Home() {
 
             <pre
               aria-hidden="true"
-              className="bg-neutral m-0 inline-block rounded-xl border border-neutral-800 px-5 py-3.5 font-mono text-sm leading-relaxed text-neutral-300"
+              className="m-0 inline-block rounded-xl border border-neutral-800 px-5 py-3.5 font-mono text-sm leading-relaxed text-neutral-300"
             >
               <code>
                 <span className="text-purple-400">const</span> fome ={" "}
@@ -81,10 +86,10 @@ export default function Home() {
             className="block w-full rounded-[28px] shadow-[0_30px_80px_rgba(0,0,0,0.6)] motion-safe:animate-[float_6s_ease-in-out_infinite]"
           />
           <span className="absolute top-[8%] left-[2%] rounded-full border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm font-semibold whitespace-nowrap backdrop-blur motion-safe:animate-[float_5s_ease-in-out_infinite] md:left-[-4%]">
-            🧀 Cheddar derretido
+            Commit de sabor
           </span>
           <span className="absolute right-[2%] bottom-[10%] rounded-full border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm font-semibold whitespace-nowrap backdrop-blur [animation-delay:1.2s] motion-safe:animate-[float_5s_ease-in-out_infinite] md:right-[-3%]">
-            🥓 Bacon crocante
+            Zero bugs
           </span>
         </div>
       </section>
@@ -126,7 +131,7 @@ export default function Home() {
           Escolha seu burger favorito e receba quentinho.
         </p>
         <Link
-          to="/Menu"
+          to="/menu"
           className={`${btnBase} bg-linear-to-br from-[#ffa41b] to-[#ff7a00] px-10 py-4 text-lg text-neutral-900 shadow-[0_8px_30px_rgba(255,140,0,0.35)] hover:shadow-[0_12px_40px_rgba(255,140,0,0.55)]`}
         >
           Ver cardápio →
