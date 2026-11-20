@@ -40,6 +40,7 @@ export const login = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       cep: user.cep,
+      admin: user.admin,
     };
 
     // Token assinado com os dados do usuário (expiresIn em segundos)

@@ -14,7 +14,7 @@ const Header = () => {
   useEffect(() => {
     const handleAuthUser = async () => {
       try {
-     const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
           credentials: "include",
         });
 
@@ -24,7 +24,7 @@ const Header = () => {
         }
 
         const data = await response.json();
-        setUser(data); // { id, name, email, cep }
+        setUser(data); // { id, name, email, cep, admin }
       } catch (error) {
         console.error("Erro ao verificar usuário:", error);
         setUser(null);
@@ -37,7 +37,7 @@ const Header = () => {
   // Pede ao back para apagar o cookie e depois limpa o front
   async function handleLogout() {
     try {
-     await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -74,7 +74,7 @@ const Header = () => {
 
         <div className="flex items-center gap-4 text-white">
           {/* Ícones de administração: só para usuário logado */}
-          {user && (
+          {user && user.admin && (
             <div className="flex items-center gap-3">
               <Link
                 to="/admin/cardapio"
@@ -115,16 +115,18 @@ const Header = () => {
 
             {user ? (
               <>
-                {/* Carrinho */}
-                <button
-                  className="relative cursor-pointer p-2 text-white transition hover:text-[#ffa41b]"
-                  aria-label="Carrinho"
-                >
-                  <ShoppingCart size={22} />
-                  <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-[#ffa41b] px-1 text-[11px] font-bold text-black ring-2 ring-black">
-                    1
-                  </span>
-                </button>
+                {/* Carrinho: só para cliente, admin não compra */}
+                {!user.admin && (
+                  <button
+                    className="relative cursor-pointer p-2 text-white transition hover:text-[#ffa41b]"
+                    aria-label="Carrinho"
+                  >
+                    <ShoppingCart size={22} />
+                    <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-[#ffa41b] px-1 text-[11px] font-bold text-black ring-2 ring-black">
+                      1
+                    </span>
+                  </button>
+                )}
 
                 <span className="text-sm font-bold">Olá, {user.name}!</span>
 

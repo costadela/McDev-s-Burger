@@ -5,6 +5,7 @@ export interface UserInterface {
   name: string;
   email: string;
   cep: string;
+  admin: boolean;
 }
 
 export type UserContextType = {

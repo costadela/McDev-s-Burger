@@ -16,6 +16,7 @@ model User {
   password  String
   cep       String
   createdAt DateTime @default(now()) // Data e hora do cadastro, preenchida automaticamente pelo banco
+  admin     Boolean  @default(false) // Define se o usuário é administrador ou não
 }
 
 model Product {

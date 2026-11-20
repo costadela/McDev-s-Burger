@@ -17,9 +17,9 @@ const token = req.cookies?.[COOKIE_NAME];
   }
 
   try {
-    const { id, name, email, cep } = jwt.verify(token, secret) as UserPayload;
-    req.user = { id, name, email, cep }; 
-  } catch (error) {
+  const { id, name, email, cep, admin } = jwt.verify(token, secret) as UserPayload;
+  req.user = { id, name, email, cep, admin };
+} catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       return res.status(401).json({ message: "Token inválido ou expirado" });
     }
