@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Pedidos from "./pages/admin/Pedidos";
 import Cardapio from "./pages/admin/Cardapio";
+import PublicRoute from "./components/PublicRoute";
 
 /**
  * LAYOUT PADRÃO (Com Header e Footer)
@@ -44,7 +45,8 @@ export const router = createBrowserRouter([
   // ==========================================
   // ROTAS SEM LAYOUT (Tela cheia / Limpas)
   // Útil para Login/Cadastro para não ter Header/Footer atrapalhando
+  // PublicRoute: quem já está logado é mandado para a home
   // ==========================================
-  { path: "/login", element: <Login /> },
-  { path: "/cadastro", element: <Register /> },
+  { path: "/login", element: <PublicRoute><Login /></PublicRoute> },
+  { path: "/cadastro", element: <PublicRoute><Register /></PublicRoute> },
 ]);

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { LogOut, ShoppingCart, LayoutDashboard, Plus, Box } from "lucide-react";
 
@@ -9,30 +9,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const isOnMenu = location.pathname === "/menu";
-
-  // Ao carregar o Header, pergunta ao back se o cookie ainda é válido
-  useEffect(() => {
-    const handleAuthUser = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
-          credentials: "include",
-        });
-
-        if (response.status !== 200) {
-          setUser(null);
-          return;
-        }
-
-        const data = await response.json();
-        setUser(data); // { id, name, email, cep, admin }
-      } catch (error) {
-        console.error("Erro ao verificar usuário:", error);
-        setUser(null);
-      }
-    };
-
-    handleAuthUser();
-  }, []);
 
   // Pede ao back para apagar o cookie e depois limpa o front
   async function handleLogout() {
