@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { login, cadastro, auth, logout } from "./controller/userController.ts";
 import authMiddleware from "./middleware/auth.ts";
+import { loginLimiter } from "./middleware/rateLimit.ts";
+
 
 export const router = Router();
 
 // Rotas públicas (não precisa estar logado)
-router.post("/login", login);
+router.post("/login", loginLimiter, login);
 router.post("/cadastro", cadastro);
 
 // Rotas protegidas (o middleware verifica o cookie antes)

@@ -44,7 +44,9 @@ export const login = async (req: Request, res: Response) => {
     };
 
     // Token assinado com os dados do usuário (expiresIn em segundos)
-    const token = jwt.sign(tokenData, secret, { expiresIn: ONE_HOUR_MS / 1000 });
+    const token = jwt.sign(tokenData, secret, {
+      expiresIn: ONE_HOUR_MS / 1000,
+    });
 
     // O cookie guarda o token assinado: se alguém alterar o conteúdo, a assinatura não bate e o servidor recusa
     res.cookie(COOKIE_NAME, token, {
@@ -68,7 +70,9 @@ export const cadastro = async (req: Request, res: Response) => {
     const { name, email, password, cep } = req.body ?? {};
 
     const cleanName = String(name ?? "").trim();
-    const normalizedEmail = String(email ?? "").trim().toLowerCase();
+    const normalizedEmail = String(email ?? "")
+      .trim()
+      .toLowerCase();
     const cleanPassword = String(password ?? "");
     const cleanCep = String(cep ?? "").replace(/\D/g, "");
 
@@ -89,6 +93,13 @@ export const cadastro = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json({ message: "A senha deve ter pelo menos 6 caracteres" });
+    }
+
+    // 400: senha máxima (o bcrypt só considera os primeiros 72 bytes)
+    if (Buffer.byteLength(cleanPassword, "utf8") > 72) {
+      return res
+        .status(400)
+        .json({ message: "A senha deve ter no máximo 72 caracteres" });
     }
 
     // 400: CEP precisa ter 8 números
