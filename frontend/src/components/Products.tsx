@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ShoppingCart } from "lucide-react";
 import { UserContext } from "../contexts/UserContext";
 import type { Product } from "../types/Product";
+import { formatPrice } from "../utils/formatPrice";
 
 // Diz ao TypeScript o que este componente recebe do Menu
 type ProductsProps = {
@@ -23,7 +24,7 @@ const Products = ({ products }: ProductsProps) => {
         <div key={product.id} className="flex gap-3 rounded-xl bg-neutral-900 p-3 md:gap-4">
           {/* Foto: mesma altura da coluna de texto */}
           <img
-            src={product.image}
+  src={product.imageUrl ?? ""}
             alt={product.name}
             className="h-24 w-24 shrink-0 rounded-lg object-cover md:h-28 md:w-28"
           />
@@ -39,9 +40,9 @@ const Products = ({ products }: ProductsProps) => {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-[#ffa41b] md:text-base">
-                {product.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-              </span>
+<span className="text-sm font-bold text-[#ffa41b] md:text-base">
+  {formatPrice(product.price)}
+</span>
 
               {/* Adicionar ao carrinho: só para cliente, admin não compra */}
               {!user?.admin && (

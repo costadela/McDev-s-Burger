@@ -1,14 +1,17 @@
+// Gera o "cliente" do Prisma: o código que você usa no back (prisma.product.findMany() etc.)
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../src/generated/prisma" // pasta onde esse código gerado fica
 }
 
+// Qual banco usamos. A URL de conexão fica no prisma.config.ts (Prisma 7)
 datasource db {
   provider = "postgresql"
 }
 
-
-
+// ─────────────────────────────────────────────
+// USUÁRIO: quem se cadastra no site
+// ─────────────────────────────────────────────
 model User {
   id        String   @id @default(uuid()) // Identificador único, gerado automaticamente
   name      String
@@ -17,15 +20,46 @@ model User {
   cep       String
   createdAt DateTime @default(now()) // Data e hora do cadastro, preenchida automaticamente pelo banco
   admin     Boolean  @default(false) // Define se o usuário é administrador ou não
+  orders    Order[]  // Um usuário pode ter VÁRIOS pedidos (não vira coluna no banco, é só a ligação)
 }
 
+// ─────────────────────────────────────────────
+// PRODUTO: cada item do cardápio
+// ─────────────────────────────────────────────
 model Product {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   name        String
-  description String?
-  price       Decimal  @db.Decimal(10, 2) // 2 casas decimais; Evita erros de arredondamento (ex: 0.1 + 0.2 = 0.30000000000000004)
-  imageUrl    String?
-  category    String
-  available   Boolean  @default(true) // Permite tirar o produto do cardápio sem apagá-lo do banco
-  createdAt   DateTime @default(now())
+  description String?     // "?" = opcional, pode ficar vazio
+  price       Decimal     @db.Decimal(10, 2) // 2 casas decimais; evita erros de arredondamento (ex: 0.1 + 0.2 = 0.30000000000000004)
+  imageUrl    String?     // Só o NOME do arquivo (ex: duplo-da-casa.png), não a imagem em si
+  category    String      // Precisa ser igual ao nome em categories.ts (ex: "Hamburger")
+  available   Boolean     @default(true) // Permite tirar o produto do cardápio sem apagá-lo do banco
+  createdAt   DateTime    @default(now())
+  orderItems  OrderItem[] // Um produto pode aparecer em VÁRIOS itens de pedidos
+}
+
+// ─────────────────────────────────────────────
+// PEDIDO: a "comanda" (quem pediu, quando, total, status)
+// ─────────────────────────────────────────────
+model Order {
+  id          String      @id @default(uuid())
+  userId      String      // Coluna real no banco: guarda o id de quem fez o pedido
+  user        User        @relation(fields: [userId], references: [id]) // Liga userId ao id do User
+  totalPrice  Decimal     @db.Decimal(10, 2)
+  status      String      @default("pending") // pending, completed, canceled
+  createdAt   DateTime    @default(now())
+  orderItems  OrderItem[] // Um pedido tem VÁRIOS itens (as linhas da comanda)
+}
+
+// ─────────────────────────────────────────────
+// ITEM DO PEDIDO: cada linha da comanda (qual produto, quantos)
+// ─────────────────────────────────────────────
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String  // Coluna real: a qual pedido esta linha pertence
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade) // Cascade: apagou o pedido, apaga as linhas dele
+  productId String  // Coluna real: qual produto foi pedido
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     // Quantas unidades (inteiro: não existe meio hambúrguer)
+  unitPrice Decimal @db.Decimal(10, 2) // Preço NO MOMENTO da compra (se o cardápio mudar depois, o pedido antigo não muda)
 }
